@@ -21,7 +21,8 @@ tmp/$(MODELER_GZ):
 
 BPMRUN_VER = 7.15
 BPMRUN_REL = $(BPMRUN_VER).0-alpha2
-BPMRUN_GZ  = camunda-bpm-run-$(BPMRUN_REL).tar.gz
+BPMRUN     = camunda-bpm-run-$(BPMRUN_REL)
+BPMRUN_GZ  = $(BPMRUN).tar.gz
 tmp/$(BPMRUN_GZ):
 	$(WGET) -O $@ https://downloads.camunda.cloud/release/camunda-bpm/run/$(BPMRUN_VER)/$(BPMRUN_GZ)
 
@@ -29,11 +30,16 @@ tmp/$(BPMRUN_GZ):
 gz: tmp/$(MODELER_GZ) tmp/$(BPMRUN_GZ)
 
 .PHONY: camunda
-camunda: modeler/VERSION
+camunda: modeler/VERSION bpmrun/VERSION
 
 modeler/VERSION:
 	$(MAKE) gz
 	tar zx < tmp/$(MODELER_GZ) ; mv $(MODELER) modeler ; git checkout modeler
+	touch $@
+
+bpmrun/VERSION:	
+	$(MAKE) gz
+	cd bpmrun ; tar zx < ../tmp/$(BPMRUN_GZ)
 	touch $@
 
 # \ <section:install>
