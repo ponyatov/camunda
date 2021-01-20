@@ -37,7 +37,7 @@ modeler/VERSION:
 	tar zx < tmp/$(MODELER_GZ) ; mv $(MODELER) modeler ; git checkout modeler
 	touch $@
 
-bpmrun/VERSION:	
+bpmrun/README.txt:
 	$(MAKE) gz
 	cd bpmrun ; tar zx < ../tmp/$(BPMRUN_GZ)
 	touch $@

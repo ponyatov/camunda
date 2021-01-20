@@ -1,2 +1,10 @@
-*
+internal
 !.gitignore
+!configuration
+configuration/sql
+configuration/userlib
+configuration/keystore
+LICENSE*
+README.txt
+NOTICE
+start.*
