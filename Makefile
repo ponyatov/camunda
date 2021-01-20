@@ -17,6 +17,11 @@ WGET         = wget -c
 .PHONY: all
 all: modeler/VERSION bpmrun/README.txt
 
+.PHONY: run
+run: bpmrun/README.txt
+	cd bpmrun ; sh start.sh
+
+
 # / <section:all>
 
 # \ <section:gz>
