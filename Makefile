@@ -13,6 +13,17 @@ TMP          = $(CWD)/tmp
 WGET         = wget -c
 # / <section:tool>
 
+# \ <section:all>
+.PHONY: all
+all: modeler/VERSION bpmrun/README.txt
+
+# / <section:all>
+
+# \ <section:gz>
+
+.PHONY: gz
+gz: tmp/$(MODELER_GZ) tmp/$(BPMRUN_GZ)
+
 MODELER_VER = 4.5.0
 MODELER     = camunda-modeler-$(MODELER_VER)-linux-x64
 MODELER_GZ  = $(MODELER).tar.gz
@@ -26,12 +37,6 @@ BPMRUN_GZ  = $(BPMRUN).tar.gz
 tmp/$(BPMRUN_GZ):
 	$(WGET) -O $@ https://downloads.camunda.cloud/release/camunda-bpm/run/$(BPMRUN_VER)/$(BPMRUN_GZ)
 
-.PHONY: gz
-gz: tmp/$(MODELER_GZ) tmp/$(BPMRUN_GZ)
-
-.PHONY: camunda
-camunda: modeler/VERSION bpmrun/VERSION
-
 modeler/VERSION:
 	$(MAKE) gz
 	tar zx < tmp/$(MODELER_GZ) ; mv $(MODELER) modeler ; git checkout modeler
@@ -41,6 +46,8 @@ bpmrun/README.txt:
 	$(MAKE) gz
 	cd bpmrun ; tar zx < ../tmp/$(BPMRUN_GZ)
 	touch $@
+
+# / <section:gz>
 
 # \ <section:install>
 .PHONY: install
