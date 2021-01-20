@@ -21,6 +21,10 @@ all: modeler/VERSION bpmrun/README.txt
 run: bpmrun/README.txt
 	cd bpmrun ; sh start.sh
 
+.PHONY: model
+model: modeler/camunda-modeler
+	cd modeler ; ./camunda-modeler
+
 
 # / <section:all>
 
@@ -42,10 +46,10 @@ BPMRUN_GZ  = $(BPMRUN).tar.gz
 tmp/$(BPMRUN_GZ):
 	$(WGET) -O $@ https://downloads.camunda.cloud/release/camunda-bpm/run/$(BPMRUN_VER)/$(BPMRUN_GZ)
 
-modeler/VERSION:
+modeler/camunda-modeler:
 	$(MAKE) gz
 	tar zx < tmp/$(MODELER_GZ) ; mv $(MODELER) modeler ; git checkout modeler
-	touch $@
+	touch $@ ; chmod +x $@
 
 bpmrun/README.txt:
 	$(MAKE) gz
