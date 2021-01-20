@@ -14,7 +14,8 @@ WGET         = wget -c
 # / <section:tool>
 
 MODELER_VER = 4.5.0
-MODELER_GZ  = camunda-modeler-$(MODELER_VER)-linux-x64.tar.gz
+MODELER     = camunda-modeler-$(MODELER_VER)-linux-x64
+MODELER_GZ  = $(MODELER).tar.gz
 tmp/$(MODELER_GZ):
 	$(WGET) -O $@ https://downloads.camunda.cloud/release/camunda-modeler/$(MODELER_VER)/$(MODELER_GZ)
 
@@ -28,7 +29,12 @@ tmp/$(BPMRUN_GZ):
 gz: tmp/$(MODELER_GZ) tmp/$(BPMRUN_GZ)
 
 .PHONY: camunda
-camunda: gz
+camunda: modeler/VERSION
+
+modeler/VERSION:
+	$(MAKE) gz
+	tar zx < tmp/$(MODELER_GZ) ; mv $(MODELER) modeler ; git checkout modeler
+	touch $@
 
 # \ <section:install>
 .PHONY: install
